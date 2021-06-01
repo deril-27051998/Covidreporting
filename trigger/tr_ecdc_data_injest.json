@@ -1,0 +1,24 @@
+{
+	"name": "tr_ecdc_data_injest",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_injest_ecdc_data",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-05-28T13:10:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
