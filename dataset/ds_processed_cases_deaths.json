@@ -1,22 +1,21 @@
 {
-	"name": "testing",
+	"name": "ds_processed_cases_deaths",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_ablob_covidreportingsa",
+			"referenceName": "ls_adls_covidreportingdl",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation",
-				"fileName": "population_by_age.tsv.gz",
-				"container": "population"
+				"type": "AzureBlobFSLocation",
+				"folderPath": "ecdc/cases_deaths",
+				"fileSystem": "processed"
 			},
 			"columnDelimiter": ",",
-			"compressionCodec": "gzip",
-			"compressionLevel": "Optimal",
 			"escapeChar": "\\",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []
