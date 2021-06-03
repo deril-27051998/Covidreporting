@@ -11,6 +11,9 @@
 		"ls_adls_covidreportingdl_accountKey": {
 			"value": ""
 		},
+		"ls_sql_database_cases_death_connectionString": {
+			"value": ""
+		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://covidreportingdl2705.dfs.core.windows.net"
 		},
