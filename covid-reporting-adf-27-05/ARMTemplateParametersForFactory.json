@@ -14,11 +14,17 @@
 		"ls_sql_database_cases_death_connectionString": {
 			"value": ""
 		},
+		"ls_user_log_data_accountKey": {
+			"value": ""
+		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://covidreportingdl2705.dfs.core.windows.net"
 		},
 		"ls_http_opendata_ecdc_europa_eu_properties_typeProperties_url": {
 			"value": "@{linkedService().sourceBaseURL}"
+		},
+		"ls_user_log_data_properties_typeProperties_url": {
+			"value": "https://covidreportingdl2705.dfs.core.windows.net"
 		}
 	}
 }

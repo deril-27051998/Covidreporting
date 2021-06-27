@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_sql_database_cases_death'"
 		},
+		"ls_user_log_data_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_user_log_data'"
+		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://covidreportingdl2705.dfs.core.windows.net"
@@ -26,6 +30,10 @@
 		"ls_http_opendata_ecdc_europa_eu_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().sourceBaseURL}"
+		},
+		"ls_user_log_data_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://covidreportingdl2705.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -91,6 +99,23 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('ls_sql_database_cases_death_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_user_log_data')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_user_log_data_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_user_log_data_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -652,332 +677,97 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_injest_ecdc_data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/ds_user_data_log')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "lookup for ecdc data",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "ds_ecdc_file_list",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "for loop for ecdc config",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "lookup for ecdc data",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('lookup for ecdc data').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy data from ecdc data",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "DelimitedTextSource",
-											"storeSettings": {
-												"type": "HttpReadSettings",
-												"requestMethod": "GET"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
-											}
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ds_ecdc_raw_csv_http",
-											"type": "DatasetReference",
-											"parameters": {
-												"relativeURL": {
-													"value": "@item().sourceRelativeURL",
-													"type": "Expression"
-												},
-												"baseURL": {
-													"value": "@item().sourceBaseURL",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "ds_ecdc_raw_csv_dl",
-											"type": "DatasetReference",
-											"parameters": {
-												"fileName": {
-													"value": "@item().sinkFileName",
-													"type": "Expression"
-												}
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
+				"linkedServiceName": {
+					"referenceName": "ls_user_log_data",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"lastPublishTime": "2021-05-28T13:09:38Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_ecdc_file_list')]",
-				"[concat(variables('factoryId'), '/datasets/ds_ecdc_raw_csv_http')]",
-				"[concat(variables('factoryId'), '/datasets/ds_ecdc_raw_csv_dl')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_injest_population_data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Get file  Metadata1",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ds_population_raw_gz",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"columnCount",
-								"size",
-								"exists"
-							],
-							"storeSettings": {
-								"type": "AzureBlobStorageReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "If Couunt column matches",
-						"type": "IfCondition",
-						"dependsOn": [
-							{
-								"activity": "Get file  Metadata1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@equals(activity('Get file  Metadata1').output.columnCount,13)",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "Copy population data",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.00:05:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "DelimitedTextSource",
-											"storeSettings": {
-												"type": "AzureBlobStorageReadSettings",
-												"recursive": true,
-												"enablePartitionDiscovery": false
-											},
-											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
-											}
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ds_population_raw_gz",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "ds_population_raw_tsv",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2021-05-26T13:41:29Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_population_raw_gz')]",
-				"[concat(variables('factoryId'), '/datasets/ds_population_raw_tsv')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_transform_cases_deaths')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_raw_cases_and_deaths",
-								"type": "DatasetReference"
-							},
-							"name": "CasesAndDeathsSource"
-						},
-						{
-							"dataset": {
-								"referenceName": "df_country_lookup_data",
-								"type": "DatasetReference"
-							},
-							"name": "CountryLookupSource"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_processed_cases_deaths",
-								"type": "DatasetReference"
-							},
-							"name": "CasesandDeathSink"
-						}
-					],
-					"transformations": [
-						{
-							"name": "FilterEuropeOnly"
-						},
-						{
-							"name": "SelectOnlyRequiredFeild"
-						},
-						{
-							"name": "PivotCounts"
-						},
-						{
-							"name": "LookupCountry"
-						},
-						{
-							"name": "SelectForSink"
-						}
-					],
-					"script": "source(output(\n\t\tcountry as string,\n\t\tcountry_code as string,\n\t\tcontinent as string,\n\t\tpopulation as integer,\n\t\tindicator as string,\n\t\tdaily_count as integer,\n\t\tdate as date,\n\t\trate_14_day as double,\n\t\tsource as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CasesAndDeathsSource\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CountryLookupSource\nCasesAndDeathsSource filter(continent == 'Europe' && not(isNull(country_code))) ~> FilterEuropeOnly\nFilterEuropeOnly select(mapColumn(\n\t\tcountry,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tindicator,\n\t\tdaily_count,\n\t\tsource,\n\t\teach(match(name=='date'),\n\t\t\t'reported'+'_date' = $$)\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectOnlyRequiredFeild\nSelectOnlyRequiredFeild pivot(groupBy(country,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tsource,\n\t\treported_date),\n\tpivotBy(indicator, ['confirmed cases', 'deaths']),\n\tcount = sum(daily_count),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> PivotCounts\nPivotCounts, CountryLookupSource lookup(PivotCounts@country == CountryLookupSource@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> LookupCountry\nLookupCountry select(mapColumn(\n\t\tcountry = PivotCounts@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation = PivotCounts@population,\n\t\t{confirmed cases_count},\n\t\tdeaths_count,\n\t\treported_date,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectForSink\nSelectForSink sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Cases_and_deaths_processed'],\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> CasesandDeathSink"
-				}
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "VisitorLogsData.csv",
+						"folderPath": "logdata",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "webClientID",
+						"type": "String"
+					},
+					{
+						"name": "VisitDateTime",
+						"type": "String"
+					},
+					{
+						"name": "ProductID",
+						"type": "String"
+					},
+					{
+						"name": "UserID",
+						"type": "String"
+					},
+					{
+						"name": "Activity",
+						"type": "String"
+					},
+					{
+						"name": "Browser",
+						"type": "String"
+					},
+					{
+						"name": "OS",
+						"type": "String"
+					},
+					{
+						"name": "City",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_raw_cases_and_deaths')]",
-				"[concat(variables('factoryId'), '/datasets/df_country_lookup_data')]",
-				"[concat(variables('factoryId'), '/datasets/ds_processed_cases_deaths')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_user_log_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_processed_log')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_user_log_data",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "processed_log",
+						"fileSystem": "processed"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_user_log_data')]"
 			]
 		}
 	]
