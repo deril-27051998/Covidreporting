@@ -440,6 +440,44 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_log_data')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_user_data_log",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_processed_log",
+								"type": "DatasetReference"
+							},
+							"name": "final"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Filterdata"
+						},
+						{
+							"name": "Derivedproductid"
+						}
+					],
+					"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as timestamp,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(UserID != 'Null' && toString({VisitDateTime})>= toString('2018-05-07') && toString({VisitDateTime})<=toString('2018-05-28')) ~> Filterdata\nFilterdata derive(Activity = lower(Activity)) ~> Derivedproductid\nDerivedproductid sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Final_processed_1.1.csv'],\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tsaveOrder: 0,\n\tmapColumn(\n\t\twebClientID,\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity,\n\t\tBrowser,\n\t\tOS,\n\t\tCity,\n\t\tCountry\n\t),\n\tpartitionBy('hash', 1)) ~> final"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/df_transform_cases_deaths')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -586,42 +624,47 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_log_data')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
+			"name": "[concat(parameters('factoryName'), '/pl_injest_final_log')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_user_data_log",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_processed_log",
-								"type": "DatasetReference"
-							},
-							"name": "finalprocessed"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Filterdata"
+				"activities": [
+					{
+						"name": "log flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
 						},
-						{
-							"name": "finaldata"
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow_log_data",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"final": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
 						}
-					],
-					"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as timestamp,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(UserID != 'Null' && toString({VisitDateTime})>= toString('2018-05-07') && toString({VisitDateTime})<= toString('2018-05-27')) ~> Filterdata\nFilterdata select(mapColumn(\n\t\twebClientID,\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity,\n\t\tBrowser,\n\t\tOS,\n\t\tCity,\n\t\tCountry\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> finaldata\nfinaldata sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['processed_log.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\twebClientID,\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity,\n\t\tBrowser,\n\t\tOS,\n\t\tCity,\n\t\tCountry\n\t),\n\tpartitionBy('hash', 1)) ~> finalprocessed"
-				}
+					}
+				],
+				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_log_data')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pl_processed_casesdata')]",
@@ -741,49 +784,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pl_injest_ecdc_data')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_injest_final_log')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "log flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_log_data",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"finalprocessed": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_log_data')]"
 			]
 		}
 	]
