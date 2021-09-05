@@ -211,7 +211,7 @@
 							"method": "POST",
 							"headers": {},
 							"body": {
-								"value": "{\n\"Resumename\":\"variables('ResumeFileName')\",\n\"jobrole\":\"variables('Searchjob')\"\n}",
+								"value": "{\n\"Resumename\":\"dataengineer_resume.docx\",\n\"jobrole\":\"dataengineer\"\n}",
 								"type": "Expression"
 							}
 						},
