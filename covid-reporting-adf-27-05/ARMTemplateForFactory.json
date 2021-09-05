@@ -164,7 +164,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"functionName": "HttpTrigger1",
+							"functionName": "Resume",
 							"method": "POST",
 							"headers": {},
 							"body": {
