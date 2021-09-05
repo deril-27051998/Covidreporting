@@ -41,7 +41,7 @@
 		},
 		"af_resume_properties_typeProperties_functionAppUrl": {
 			"type": "string",
-			"defaultValue": "https://techathon.azurewebsites.net/api/Resume"
+			"defaultValue": "https://techathon.azurewebsites.net"
 		}
 	},
 	"variables": {
