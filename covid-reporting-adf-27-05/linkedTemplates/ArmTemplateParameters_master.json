@@ -36,7 +36,7 @@
 			"value": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705"
 		},
 		"af_resume_properties_typeProperties_functionAppUrl": {
-			"value": "https://techathon.azurewebsites.net"
+			"value": "https://techathon.azurewebsites.net/api/Resume"
 		},
 		"containerUri": {
 			"value": ""
