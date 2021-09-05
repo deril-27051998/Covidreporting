@@ -142,6 +142,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"triggerfilename": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"ResumeFileName": {
 				"type": "String"
