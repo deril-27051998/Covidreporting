@@ -350,7 +350,7 @@
 							"method": "POST",
 							"headers": {},
 							"body": {
-								"value": "{\n\"Resumename\":variables('ResumeFileName'),\n\"jobrole\":variables('Searchjob')\n}",
+								"value": "{\n\"Resumename\":\"variables('ResumeFileName')\",\n\"jobrole\":\"variables('Searchjob')\"\n}",
 								"type": "Expression"
 							}
 						},
