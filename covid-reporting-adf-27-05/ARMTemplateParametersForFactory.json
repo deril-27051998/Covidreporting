@@ -21,7 +21,7 @@
 			"value": ""
 		},
 		"AzureFunction1_properties_typeProperties_functionAppUrl": {
-			"value": "https://techathon.azurewebsites.net"
+			"value": "https://techathon.azurewebsites.net/api/Resume"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://covidreportingdl2705.dfs.core.windows.net"
