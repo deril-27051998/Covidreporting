@@ -112,7 +112,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "AzureFunction1",
+					"referenceName": "af_resume",
 					"type": "LinkedServiceReference"
 				}
 			}
