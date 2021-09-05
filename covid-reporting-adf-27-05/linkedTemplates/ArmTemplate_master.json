@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "covid-reporting-adf-27-05"
 		},
-		"AzureFunction1_functionKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'functionKey' of 'AzureFunction1'"
-		},
 		"ls_ablob_covidreportingsa_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_ablob_covidreportingsa'"
@@ -27,9 +23,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_user_log_data'"
 		},
-		"AzureFunction1_properties_typeProperties_functionAppUrl": {
-			"type": "string",
-			"defaultValue": "https://techathon.azurewebsites.net/api/Resume"
+		"af_resume_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'af_resume'"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
@@ -50,6 +46,10 @@
 		"tr_resume_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705"
+		},
+		"af_resume_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://techathon.azurewebsites.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -78,9 +78,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureFunction1_functionKey": {
-						"value": "[parameters('AzureFunction1_functionKey')]"
-					},
 					"ls_ablob_covidreportingsa_connectionString": {
 						"value": "[parameters('ls_ablob_covidreportingsa_connectionString')]"
 					},
@@ -93,8 +90,8 @@
 					"ls_user_log_data_accountKey": {
 						"value": "[parameters('ls_user_log_data_accountKey')]"
 					},
-					"AzureFunction1_properties_typeProperties_functionAppUrl": {
-						"value": "[parameters('AzureFunction1_properties_typeProperties_functionAppUrl')]"
+					"af_resume_functionKey": {
+						"value": "[parameters('af_resume_functionKey')]"
 					},
 					"ls_adls_covidreportingdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_covidreportingdl_properties_typeProperties_url')]"
@@ -104,6 +101,9 @@
 					},
 					"ls_user_log_data_properties_typeProperties_url": {
 						"value": "[parameters('ls_user_log_data_properties_typeProperties_url')]"
+					},
+					"af_resume_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('af_resume_properties_typeProperties_functionAppUrl')]"
 					}
 				}
 			},
