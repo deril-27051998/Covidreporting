@@ -17,7 +17,13 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "Binary1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"candidateresume": {
+								"value": "@pipeline().parameters.triggerfilename",
+								"type": "Expression"
+							}
+						}
 					},
 					"fieldList": [
 						"itemName"
@@ -116,8 +122,8 @@
 				}
 			},
 			{
-				"name": "Set variable3",
-				"type": "SetVariable",
+				"name": "Azure Function1",
+				"type": "AzureFunctionActivity",
 				"dependsOn": [
 					{
 						"activity": "Get Metadata1",
@@ -132,13 +138,25 @@
 						]
 					}
 				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "final",
-					"value": {
-						"value": "@concat('{','name:',variables('ResumeFileName'),',job:',variables('Searchjob'),'}')",
+					"functionName": "HttpTrigger1",
+					"method": "POST",
+					"body": {
+						"value": "@concat('\"Resumename:\"',variables('ResumeFileName'),',\"jobrole:\"',variables('Searchjob'))",
 						"type": "Expression"
 					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureFunction1",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
