@@ -5,12 +5,20 @@
 			"referenceName": "ls_adls_covidreportingdl",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"candidateresume": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dataengineer_resume.docx",
+				"fileName": {
+					"value": "@dataset().candidateresume",
+					"type": "Expression"
+				},
 				"folderPath": "Candidate_Resume",
 				"fileSystem": "rawresume"
 			}
