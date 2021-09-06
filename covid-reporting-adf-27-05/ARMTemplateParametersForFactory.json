@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "covid-reporting-adf-27-05"
 		},
+		"af_resume_functionKey": {
+			"value": ""
+		},
 		"ls_ablob_covidreportingsa_connectionString": {
 			"value": ""
 		},
@@ -17,8 +20,8 @@
 		"ls_user_log_data_accountKey": {
 			"value": ""
 		},
-		"af_resume_functionKey": {
-			"value": ""
+		"af_resume_properties_typeProperties_functionAppUrl": {
+			"value": "https://techathon.azurewebsites.net"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://covidreportingdl2705.dfs.core.windows.net"
@@ -34,9 +37,6 @@
 		},
 		"tr_resume_properties_typeProperties_scope": {
 			"value": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705"
-		},
-		"af_resume_properties_typeProperties_functionAppUrl": {
-			"value": "https://techathon.azurewebsites.net"
 		}
 	}
 }
