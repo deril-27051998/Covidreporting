@@ -1,0 +1,9 @@
+{
+	"name": "dftechathon271998",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "99cb1bef-b1ff-4822-a4da-1a5bdac2d363",
+		"tenantId": "61330b40-bb04-4d25-b959-f3700fbe6023"
+	}
+}
