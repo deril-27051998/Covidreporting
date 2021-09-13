@@ -2,7 +2,7 @@
 	"name": "Binary1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_adls_covidreportingdl",
+			"referenceName": "ls_manogar_adls",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
