@@ -16,9 +16,9 @@
 		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
+			"blobPathBeginsWith": "/raw/blobs/Candidate_Resume/",
 			"ignoreEmptyBlobs": true,
-			"scope": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705",
+			"scope": "/subscriptions/ef7b5950-9537-4fc7-9592-d326105e92e1/resourceGroups/Rg_Techathon_Bot/providers/Microsoft.Storage/storageAccounts/techathonstorageadls",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
 			]
