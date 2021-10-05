@@ -29,7 +29,7 @@
 		},
 		"af_resume_properties_typeProperties_functionAppUrl": {
 			"type": "string",
-			"defaultValue": "https://techathon.azurewebsites.net"
+			"defaultValue": "https://techathonai.azurewebsites.net"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
@@ -43,11 +43,11 @@
 			"type": "string",
 			"defaultValue": "https://covidreportingdl2705.dfs.core.windows.net"
 		},
-		"tr_resume_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
+		"tr_resume_new_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
-		"tr_resume_properties_typeProperties_scope": {
+		"tr_resume_new_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705"
 		},
@@ -123,11 +123,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"tr_resume_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
-						"value": "[parameters('tr_resume_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
+					"tr_resume_new_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
+						"value": "[parameters('tr_resume_new_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
 					},
-					"tr_resume_properties_typeProperties_scope": {
-						"value": "[parameters('tr_resume_properties_typeProperties_scope')]"
+					"tr_resume_new_properties_typeProperties_scope": {
+						"value": "[parameters('tr_resume_new_properties_typeProperties_scope')]"
 					}
 				}
 			},

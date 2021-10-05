@@ -29,7 +29,7 @@
 		},
 		"af_resume_properties_typeProperties_functionAppUrl": {
 			"type": "string",
-			"defaultValue": "https://techathon.azurewebsites.net"
+			"defaultValue": "https://techathonai.azurewebsites.net"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
@@ -43,11 +43,11 @@
 			"type": "string",
 			"defaultValue": "https://covidreportingdl2705.dfs.core.windows.net"
 		},
-		"tr_resume_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
+		"tr_resume_new_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
-		"tr_resume_properties_typeProperties_scope": {
+		"tr_resume_new_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705"
 		}
@@ -178,6 +178,10 @@
 						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"parameters": {
 					"triggerfilename": {
 						"type": "string"
@@ -334,6 +338,10 @@
 						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"annotations": [],
 				"lastPublishTime": "2021-05-28T13:09:38Z"
 			},
@@ -380,6 +388,10 @@
 						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -507,6 +519,10 @@
 						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"annotations": [],
 				"lastPublishTime": "2021-05-26T13:41:29Z"
 			},
@@ -553,6 +569,10 @@
 						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -599,6 +619,10 @@
 						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -764,6 +788,10 @@
 						]
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -1614,38 +1642,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tr_resume')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Resume_Tech_Pipeline",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"triggerfilename": "[parameters('tr_resume_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
-						}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('tr_resume_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Resume_Tech_Pipeline')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_log_data')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1678,7 +1674,7 @@
 							"name": "Derivedproductid"
 						}
 					],
-					"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as timestamp,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(UserID != 'Null') ~> Filterdata\nFilterdata derive(Activity = lower(Activity)) ~> Derivedproductid\nDerivedproductid sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Final_processed_1.5_alluserid.csv'],\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tsaveOrder: 0,\n\tmapColumn(\n\t\twebClientID,\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity,\n\t\tBrowser,\n\t\tOS,\n\t\tCity,\n\t\tCountry\n\t),\n\tpartitionBy('hash', 1)) ~> final"
+					"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as timestamp,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 filter(UserID != 'Null') ~> Filterdata\nFilterdata derive(Activity = lower(Activity)) ~> Derivedproductid\nDerivedproductid sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Final_processed_1.5_alluserid.csv'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tsaveOrder: 0,\n\tmapColumn(\n\t\twebClientID,\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity,\n\t\tBrowser,\n\t\tOS,\n\t\tCity,\n\t\tCountry\n\t),\n\tpartitionBy('hash', 1)) ~> final"
 				}
 			},
 			"dependsOn": [
@@ -1735,7 +1731,7 @@
 							"name": "SelectForSink"
 						}
 					],
-					"script": "source(output(\n\t\tcountry as string,\n\t\tcountry_code as string,\n\t\tcontinent as string,\n\t\tpopulation as integer,\n\t\tindicator as string,\n\t\tdaily_count as integer,\n\t\tdate as date,\n\t\trate_14_day as double,\n\t\tsource as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CasesAndDeathsSource\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CountryLookupSource\nCasesAndDeathsSource filter(continent == 'Europe' && not(isNull(country_code))) ~> FilterEuropeOnly\nFilterEuropeOnly select(mapColumn(\n\t\tcountry,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tindicator,\n\t\tdaily_count,\n\t\tsource,\n\t\teach(match(name=='date'),\n\t\t\t'reported'+'_date' = $$)\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectOnlyRequiredFeild\nSelectOnlyRequiredFeild pivot(groupBy(country,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tsource,\n\t\treported_date),\n\tpivotBy(indicator, ['confirmed cases', 'deaths']),\n\tcount = sum(daily_count),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> PivotCounts\nPivotCounts, CountryLookupSource lookup(PivotCounts@country == CountryLookupSource@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> LookupCountry\nLookupCountry select(mapColumn(\n\t\tcountry = PivotCounts@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation = PivotCounts@population,\n\t\t{confirmed cases_count},\n\t\tdeaths_count,\n\t\treported_date,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectForSink\nSelectForSink sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Cases_and_deaths_processed'],\n\ttruncate: true,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> CasesandDeathSink"
+					"script": "source(output(\n\t\tcountry as string,\n\t\tcountry_code as string,\n\t\tcontinent as string,\n\t\tpopulation as integer,\n\t\tindicator as string,\n\t\tdaily_count as integer,\n\t\tdate as date,\n\t\trate_14_day as double,\n\t\tsource as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CasesAndDeathsSource\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> CountryLookupSource\nCasesAndDeathsSource filter(continent == 'Europe' && not(isNull(country_code))) ~> FilterEuropeOnly\nFilterEuropeOnly select(mapColumn(\n\t\tcountry,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tindicator,\n\t\tdaily_count,\n\t\tsource,\n\t\teach(match(name=='date'),\n\t\t\t'reported'+'_date' = $$)\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectOnlyRequiredFeild\nSelectOnlyRequiredFeild pivot(groupBy(country,\n\t\tcountry_code,\n\t\tpopulation,\n\t\tsource,\n\t\treported_date),\n\tpivotBy(indicator, ['confirmed cases', 'deaths']),\n\tcount = sum(daily_count),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> PivotCounts\nPivotCounts, CountryLookupSource lookup(PivotCounts@country == CountryLookupSource@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> LookupCountry\nLookupCountry select(mapColumn(\n\t\tcountry = PivotCounts@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation = PivotCounts@population,\n\t\t{confirmed cases_count},\n\t\tdeaths_count,\n\t\treported_date,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectForSink\nSelectForSink sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Cases_and_deaths_processed'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> CasesandDeathSink"
 				}
 			},
 			"dependsOn": [
@@ -1831,7 +1827,7 @@
 							"name": "Sinkselectionweekly"
 						}
 					],
-					"script": "source(output(\n\t\tcountry as string,\n\t\tindicator as string,\n\t\tdate as date,\n\t\tyear_week as string,\n\t\tvalue as double,\n\t\tsource as string,\n\t\turl as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Hospitaadmissionsource\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> lookupcountrysource\nsource(output(\n\t\tdate_key as string,\n\t\tdate as string,\n\t\tyear as string,\n\t\tmonth as string,\n\t\tday as string,\n\t\tday_name as string,\n\t\tday_of_year as string,\n\t\tweek_of_month as string,\n\t\tweek_of_year as string,\n\t\tmonth_name as string,\n\t\tyear_month as string,\n\t\tyear_week as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> dimdatesource\nHospitaadmissionsource select(mapColumn(\n\t\tcountry,\n\t\tindicator,\n\t\treported_date = date,\n\t\treported_year_week = year_week,\n\t\tvalue,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRequiredFeild\nSelectRequiredFeild, lookupcountrysource lookup(SelectRequiredFeild@country == lookupcountrysource@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> CountryLookup\nCountryLookup select(mapColumn(\n\t\tcountry = SelectRequiredFeild@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\tindicator,\n\t\treported_date,\n\t\treported_year_week,\n\t\tvalue,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Selectrequiredfeildafterlookup\nSelectrequiredfeildafterlookup split(indicator == 'Weekly new hospital admissions per 100k' || indicator == 'Weekly new ICU admissions per 100k',\n\tdisjoint: false) ~> ConditionalSplitweeklyanddaily@(Weekly, daily)\ndimdatesource derive(ecdc_year_week = year + '-W' + lpad(week_of_year,2, '0')) ~> DerivedECDCYearWeek\nDerivedECDCYearWeek aggregate(groupBy(ecdc_year_week),\n\tweek_start_date = min(date),\n\t\tweek_end_date = max(date)) ~> dimdateagg\nConditionalSplitweeklyanddaily@Weekly, dimdateagg join(reported_year_week == ecdc_year_week,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Joinwithdimdate\nConditionalSplitweeklyanddaily@daily pivot(groupBy(country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_date,\n\t\tsource),\n\tpivotBy(indicator, ['Daily hospital occupancy', 'Daily ICU occupancy']),\n\tCount = sum(value),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> Pivotdaily\nJoinwithdimdate pivot(groupBy(country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_year_week,\n\t\tsource,\n\t\tweek_start_date,\n\t\tweek_end_date),\n\tpivotBy(indicator, ['Weekly new hospital admissions per 100k', 'Weekly new ICU admissions per 100k']),\n\tCount = sum(value),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> Pivotweekly\nPivotdaily sort(desc(reported_date, true),\n\tasc(country, true),\n\tpartitionBy('hash', 1)) ~> Sortdaily\nPivotweekly sort(desc(reported_year_week, true),\n\tasc(country, true),\n\tpartitionBy('hash', 1)) ~> Sortweeekly\nSortdaily select(mapColumn(\n\t\tcountry,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_date,\n\t\t{Daily hospital occupancy_Count},\n\t\t{Daily ICU occupancy_Count},\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkSelectiondaily\nSortweeekly select(mapColumn(\n\t\tcountry,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_year_week,\n\t\treport_week_start_date = week_start_date,\n\t\treport_week_end_date = week_end_date,\n\t\t{Weekly new hospital admissions per 100k_Count},\n\t\t{Weekly new ICU admissions per 100k_Count},\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Sinkselectionweekly\nSinkSelectiondaily sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Hospital_admission_data_daily.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sinkhospitaldaily\nSinkselectionweekly sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Hospital_admission_weekly.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sinkweekly"
+					"script": "source(output(\n\t\tcountry as string,\n\t\tindicator as string,\n\t\tdate as date,\n\t\tyear_week as string,\n\t\tvalue as double,\n\t\tsource as string,\n\t\turl as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Hospitaadmissionsource\nsource(output(\n\t\tcountry as string,\n\t\tcountry_code_2_digit as string,\n\t\tcountry_code_3_digit as string,\n\t\tcontinent as string,\n\t\tpopulation as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> lookupcountrysource\nsource(output(\n\t\tdate_key as string,\n\t\tdate as string,\n\t\tyear as string,\n\t\tmonth as string,\n\t\tday as string,\n\t\tday_name as string,\n\t\tday_of_year as string,\n\t\tweek_of_month as string,\n\t\tweek_of_year as string,\n\t\tmonth_name as string,\n\t\tyear_month as string,\n\t\tyear_week as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> dimdatesource\nHospitaadmissionsource select(mapColumn(\n\t\tcountry,\n\t\tindicator,\n\t\treported_date = date,\n\t\treported_year_week = year_week,\n\t\tvalue,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRequiredFeild\nSelectRequiredFeild, lookupcountrysource lookup(SelectRequiredFeild@country == lookupcountrysource@country,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> CountryLookup\nCountryLookup select(mapColumn(\n\t\tcountry = SelectRequiredFeild@country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\tindicator,\n\t\treported_date,\n\t\treported_year_week,\n\t\tvalue,\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Selectrequiredfeildafterlookup\nSelectrequiredfeildafterlookup split(indicator == 'Weekly new hospital admissions per 100k' || indicator == 'Weekly new ICU admissions per 100k',\n\tdisjoint: false) ~> ConditionalSplitweeklyanddaily@(Weekly, daily)\ndimdatesource derive(ecdc_year_week = year + '-W' + lpad(week_of_year,2, '0')) ~> DerivedECDCYearWeek\nDerivedECDCYearWeek aggregate(groupBy(ecdc_year_week),\n\tweek_start_date = min(date),\n\t\tweek_end_date = max(date)) ~> dimdateagg\nConditionalSplitweeklyanddaily@Weekly, dimdateagg join(reported_year_week == ecdc_year_week,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Joinwithdimdate\nConditionalSplitweeklyanddaily@daily pivot(groupBy(country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_date,\n\t\tsource),\n\tpivotBy(indicator, ['Daily hospital occupancy', 'Daily ICU occupancy']),\n\tCount = sum(value),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> Pivotdaily\nJoinwithdimdate pivot(groupBy(country,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_year_week,\n\t\tsource,\n\t\tweek_start_date,\n\t\tweek_end_date),\n\tpivotBy(indicator, ['Weekly new hospital admissions per 100k', 'Weekly new ICU admissions per 100k']),\n\tCount = sum(value),\n\tcolumnNaming: '$V_$N',\n\tlateral: true) ~> Pivotweekly\nPivotdaily sort(desc(reported_date, true),\n\tasc(country, true),\n\tpartitionBy('hash', 1)) ~> Sortdaily\nPivotweekly sort(desc(reported_year_week, true),\n\tasc(country, true),\n\tpartitionBy('hash', 1)) ~> Sortweeekly\nSortdaily select(mapColumn(\n\t\tcountry,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_date,\n\t\t{Daily hospital occupancy_Count},\n\t\t{Daily ICU occupancy_Count},\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkSelectiondaily\nSortweeekly select(mapColumn(\n\t\tcountry,\n\t\tcountry_code_2_digit,\n\t\tcountry_code_3_digit,\n\t\tpopulation,\n\t\treported_year_week,\n\t\treport_week_start_date = week_start_date,\n\t\treport_week_end_date = week_end_date,\n\t\t{Weekly new hospital admissions per 100k_Count},\n\t\t{Weekly new ICU admissions per 100k_Count},\n\t\tsource\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Sinkselectionweekly\nSinkSelectiondaily sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Hospital_admission_data_daily.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sinkhospitaldaily\nSinkselectionweekly sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Hospital_admission_weekly.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sinkweekly"
 				}
 			},
 			"dependsOn": [
@@ -1840,6 +1836,38 @@
 				"[concat(variables('factoryId'), '/datasets/ds_dim_datelookup')]",
 				"[concat(variables('factoryId'), '/datasets/ds_processed_hospital_admission_daily')]",
 				"[concat(variables('factoryId'), '/datasets/ds_processed_hospital_admission_weekly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_resume_new')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Resume_Tech_Pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"triggerfilename": "[parameters('tr_resume_new_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('tr_resume_new_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Resume_Tech_Pipeline')]"
 			]
 		}
 	]

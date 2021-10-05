@@ -29,7 +29,7 @@
 		},
 		"af_resume_properties_typeProperties_functionAppUrl": {
 			"type": "string",
-			"defaultValue": "https://techathon.azurewebsites.net"
+			"defaultValue": "https://techathonai.azurewebsites.net"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
