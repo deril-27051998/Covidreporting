@@ -112,7 +112,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "af_resume",
+					"referenceName": "af_resume_new",
 					"type": "LinkedServiceReference"
 				}
 			}
