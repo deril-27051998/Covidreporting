@@ -1,0 +1,17 @@
+{
+	"name": "tr_resume_new",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
