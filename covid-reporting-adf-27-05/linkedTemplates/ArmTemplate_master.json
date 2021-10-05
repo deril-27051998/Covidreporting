@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'af_resume'"
 		},
+		"af_resume_new_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'af_resume_new'"
+		},
 		"ls_ablob_covidreportingsa_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_ablob_covidreportingsa'"
@@ -30,6 +34,10 @@
 		"af_resume_properties_typeProperties_functionAppUrl": {
 			"type": "string",
 			"defaultValue": "https://techathonai.azurewebsites.net"
+		},
+		"af_resume_new_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://techathon-bot1.azurewebsites.net"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
@@ -81,6 +89,9 @@
 					"af_resume_functionKey": {
 						"value": "[parameters('af_resume_functionKey')]"
 					},
+					"af_resume_new_functionKey": {
+						"value": "[parameters('af_resume_new_functionKey')]"
+					},
 					"ls_ablob_covidreportingsa_connectionString": {
 						"value": "[parameters('ls_ablob_covidreportingsa_connectionString')]"
 					},
@@ -95,6 +106,9 @@
 					},
 					"af_resume_properties_typeProperties_functionAppUrl": {
 						"value": "[parameters('af_resume_properties_typeProperties_functionAppUrl')]"
+					},
+					"af_resume_new_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('af_resume_new_properties_typeProperties_functionAppUrl')]"
 					},
 					"ls_adls_covidreportingdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_covidreportingdl_properties_typeProperties_url')]"

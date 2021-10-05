@@ -8,6 +8,9 @@
 		"af_resume_functionKey": {
 			"value": ""
 		},
+		"af_resume_new_functionKey": {
+			"value": ""
+		},
 		"ls_ablob_covidreportingsa_connectionString": {
 			"value": ""
 		},
@@ -22,6 +25,9 @@
 		},
 		"af_resume_properties_typeProperties_functionAppUrl": {
 			"value": "https://techathonai.azurewebsites.net"
+		},
+		"af_resume_new_properties_typeProperties_functionAppUrl": {
+			"value": "https://techathon-bot1.azurewebsites.net"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://covidreportingdl2705.dfs.core.windows.net"
