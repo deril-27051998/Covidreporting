@@ -2,7 +2,7 @@
 	"name": "Binary1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_manogar_adls",
+			"referenceName": "ls_adls_covidreportingdl",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -20,7 +20,7 @@
 					"type": "Expression"
 				},
 				"folderPath": "Candidate_Resume",
-				"fileSystem": "raw"
+				"fileSystem": "rawresume"
 			}
 		}
 	}
