@@ -1,0 +1,9 @@
+{
+	"name": "adftechathon",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "af6edc04-3ded-47cc-a0f8-2e213bd396ea",
+		"tenantId": "02aebaa0-4c08-4d65-88e5-e6309051bbb4"
+	}
+}
