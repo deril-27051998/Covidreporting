@@ -18,7 +18,7 @@
 		"typeProperties": {
 			"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
 			"ignoreEmptyBlobs": true,
-			"scope": "/subscriptions/5c916631-e810-4de8-9de4-1e93f641de1c/resourceGroups/covid-reporting-rg-27-05/providers/Microsoft.Storage/storageAccounts/covidreportingdl2705",
+			"scope": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
 			]
