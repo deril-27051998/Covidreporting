@@ -1,12 +1,12 @@
 {
-	"name": "tr_1",
+	"name": "tr11",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "Resume_Tech_Pipeline",
+					"referenceName": "Resume_Tech_Pipeline_copy1",
 					"type": "PipelineReference"
 				},
 				"parameters": {
