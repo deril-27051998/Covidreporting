@@ -1261,36 +1261,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_transform_hospital_admission_data')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tr_ecdc_data_injest')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pl_injest_ecdc_data",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2021-05-28T13:10:00Z",
-						"timeZone": "UTC"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pl_injest_ecdc_data')]"
-			]
 		}
 	]
 }
