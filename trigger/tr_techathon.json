@@ -16,7 +16,7 @@
 		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
+			"blobPathBeginsWith": "/rawresume/blobs/Candidate",
 			"ignoreEmptyBlobs": true,
 			"scope": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl",
 			"events": [
