@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adftechothonuse"
 		},
-		"af_resume_functionKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'functionKey' of 'af_resume'"
-		},
 		"af_resume_new_functionKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'af_resume_new'"
@@ -31,9 +27,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_user_log_data'"
 		},
-		"af_resume_properties_typeProperties_functionAppUrl": {
-			"type": "string",
-			"defaultValue": "https://techathonai.azurewebsites.net"
+		"af_techathon_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'af_techathon'"
 		},
 		"af_resume_new_properties_typeProperties_functionAppUrl": {
 			"type": "string",
@@ -58,6 +54,10 @@
 		"trigger1_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl"
+		},
+		"af_techathon_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://techathon000111.azurewebsites.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -86,9 +86,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"af_resume_functionKey": {
-						"value": "[parameters('af_resume_functionKey')]"
-					},
 					"af_resume_new_functionKey": {
 						"value": "[parameters('af_resume_new_functionKey')]"
 					},
@@ -104,8 +101,8 @@
 					"ls_user_log_data_accountKey": {
 						"value": "[parameters('ls_user_log_data_accountKey')]"
 					},
-					"af_resume_properties_typeProperties_functionAppUrl": {
-						"value": "[parameters('af_resume_properties_typeProperties_functionAppUrl')]"
+					"af_techathon_functionKey": {
+						"value": "[parameters('af_techathon_functionKey')]"
 					},
 					"af_resume_new_properties_typeProperties_functionAppUrl": {
 						"value": "[parameters('af_resume_new_properties_typeProperties_functionAppUrl')]"
@@ -118,6 +115,9 @@
 					},
 					"ls_user_log_data_properties_typeProperties_url": {
 						"value": "[parameters('ls_user_log_data_properties_typeProperties_url')]"
+					},
+					"af_techathon_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('af_techathon_properties_typeProperties_functionAppUrl')]"
 					}
 				}
 			},

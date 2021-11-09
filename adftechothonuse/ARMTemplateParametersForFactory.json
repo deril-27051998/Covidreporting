@@ -5,9 +5,6 @@
 		"factoryName": {
 			"value": "adftechothonuse"
 		},
-		"af_resume_functionKey": {
-			"value": ""
-		},
 		"af_resume_new_functionKey": {
 			"value": ""
 		},
@@ -23,8 +20,8 @@
 		"ls_user_log_data_accountKey": {
 			"value": ""
 		},
-		"af_resume_properties_typeProperties_functionAppUrl": {
-			"value": "https://techathonai.azurewebsites.net"
+		"af_techathon_functionKey": {
+			"value": ""
 		},
 		"af_resume_new_properties_typeProperties_functionAppUrl": {
 			"value": "https://techathon000111.azurewebsites.net"
@@ -43,6 +40,9 @@
 		},
 		"trigger1_properties_typeProperties_scope": {
 			"value": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl"
+		},
+		"af_techathon_properties_typeProperties_functionAppUrl": {
+			"value": "https://techathon000111.azurewebsites.net"
 		}
 	}
 }

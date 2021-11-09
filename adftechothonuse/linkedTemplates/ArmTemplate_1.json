@@ -465,7 +465,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "af_resume_new",
+							"referenceName": "af_techathon",
 							"type": "LinkedServiceReference"
 						}
 					}

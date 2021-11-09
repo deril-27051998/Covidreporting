@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adftechothonuse"
 		},
-		"af_resume_functionKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'functionKey' of 'af_resume'"
-		},
 		"af_resume_new_functionKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'af_resume_new'"
@@ -31,9 +27,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_user_log_data'"
 		},
-		"af_resume_properties_typeProperties_functionAppUrl": {
-			"type": "string",
-			"defaultValue": "https://techathonai.azurewebsites.net"
+		"af_techathon_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'af_techathon'"
 		},
 		"af_resume_new_properties_typeProperties_functionAppUrl": {
 			"type": "string",
@@ -58,6 +54,10 @@
 		"trigger1_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl"
+		},
+		"af_techathon_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://techathon000111.azurewebsites.net"
 		}
 	},
 	"variables": {
@@ -181,7 +181,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "af_resume_new",
+							"referenceName": "af_techathon",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -210,7 +210,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Binary1')]",
-				"[concat(variables('factoryId'), '/linkedServices/af_resume_new')]"
+				"[concat(variables('factoryId'), '/linkedServices/af_techathon')]"
 			]
 		},
 		{
@@ -1613,24 +1613,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/af_resume')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureFunction",
-				"typeProperties": {
-					"functionAppUrl": "[parameters('af_resume_properties_typeProperties_functionAppUrl')]",
-					"functionKey": {
-						"type": "SecureString",
-						"value": "[parameters('af_resume_functionKey')]"
-					},
-					"authentication": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/af_resume_new')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1727,6 +1709,38 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Resume_Tech_Pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"triggerfilename": "[parameters('trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Resume_Tech_Pipeline')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_log_data')]",
@@ -1926,36 +1940,22 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/af_techathon')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Resume_Tech_Pipeline",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"triggerfilename": "[parameters('trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
-						}
-					}
-				],
-				"type": "BlobEventsTrigger",
+				"type": "AzureFunction",
 				"typeProperties": {
-					"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
+					"functionAppUrl": "[parameters('af_techathon_properties_typeProperties_functionAppUrl')]",
+					"functionKey": {
+						"type": "SecureString",
+						"value": "[parameters('af_techathon_functionKey')]"
+					},
+					"authentication": "Anonymous"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Resume_Tech_Pipeline')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
