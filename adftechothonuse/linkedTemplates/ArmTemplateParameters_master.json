@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adftechothonuse"
+		},
+		"af_resume_functionKey": {
+			"value": ""
+		},
+		"af_resume_new_functionKey": {
+			"value": ""
+		},
+		"ls_ablob_covidreportingsa_connectionString": {
+			"value": ""
+		},
+		"ls_adls_covidreportingdl_accountKey": {
+			"value": ""
+		},
+		"ls_sql_database_cases_death_connectionString": {
+			"value": ""
+		},
+		"ls_user_log_data_accountKey": {
+			"value": ""
+		},
+		"af_resume_properties_typeProperties_functionAppUrl": {
+			"value": "https://techathonai.azurewebsites.net"
+		},
+		"af_resume_new_properties_typeProperties_functionAppUrl": {
+			"value": "https://techathon000111.azurewebsites.net"
+		},
+		"ls_adls_covidreportingdl_properties_typeProperties_url": {
+			"value": "https://techathondl.dfs.core.windows.net/"
+		},
+		"ls_http_opendata_ecdc_europa_eu_properties_typeProperties_url": {
+			"value": "@{linkedService().sourceBaseURL}"
+		},
+		"ls_user_log_data_properties_typeProperties_url": {
+			"value": "https://covidreportingdl2705.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
