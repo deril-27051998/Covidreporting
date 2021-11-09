@@ -3,17 +3,7 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "Resume_Tech_Pipeline_copy1",
-					"type": "PipelineReference"
-				},
-				"parameters": {
-					"triggerfilename": "@triggerBody().fileName"
-				}
-			}
-		],
+		"pipelines": [],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
