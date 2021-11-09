@@ -51,6 +51,14 @@
 			"type": "string",
 			"defaultValue": "https://covidreportingdl2705.dfs.core.windows.net"
 		},
+		"trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -128,6 +136,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
+						"value": "[parameters('trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
+					},
+					"trigger1_properties_typeProperties_scope": {
+						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
 					}
 				}
 			},

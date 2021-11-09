@@ -50,6 +50,14 @@
 		"ls_user_log_data_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://covidreportingdl2705.dfs.core.windows.net"
+		},
+		"trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/bd4c62cc-10f3-4fba-8868-eccc45019049/resourceGroups/rg_techathon_demo/providers/Microsoft.Storage/storageAccounts/techathondl"
 		}
 	},
 	"variables": {
@@ -1915,6 +1923,38 @@
 				"[concat(variables('factoryId'), '/datasets/ds_dim_datelookup')]",
 				"[concat(variables('factoryId'), '/datasets/ds_processed_hospital_admission_daily')]",
 				"[concat(variables('factoryId'), '/datasets/ds_processed_hospital_admission_weekly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Resume_Tech_Pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"triggerfilename": "[parameters('trigger1_properties_Resume_Tech_Pipeline_parameters_triggerfilename')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/rawresume/blobs/Candidate_Resume/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Resume_Tech_Pipeline')]"
 			]
 		}
 	]
